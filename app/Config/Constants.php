@@ -28,9 +28,20 @@ class Constants
     /**
      * MENSAGENS PADRÃO
      */
-    const PAGE_OK = 'Sucesso.';
-    const PAGE_NOT_FOUND = 'Página não encontrada.';
-    const PAGE_INTERNAL_ERROR = 'Houve um erro interno. Tente novamente mais tarde.';
+    const MSG_OK = 'Sucesso.';
+    const MSG_NOT_FOUND = 'Página não encontrada.';
+    const MSG_INTERNAL_ERROR = 'Houve um erro interno. Tente novamente mais tarde.';
+    const MSG_FALHA_REQUISICAO = 'Operação não concluida.';
+
+
+    /**
+     * VALIDAÇÕES
+     */
+    const REQUIRED = 'required';
+    const MIN = 'min';
+    const MAX = 'max';
+    const DATETIME = 'datetime';
+    const LENGTH = 'equals';
 
     /**
      * MÉTODOS HTTP
@@ -39,4 +50,9 @@ class Constants
     const GET = 'GET';
     const PUT = 'PUT';
     const DELETE = 'DELETE';
+
+    /**
+     *
+     */
+    const DATA_FORMAT = 'Y-m-d H:i:s';
 }

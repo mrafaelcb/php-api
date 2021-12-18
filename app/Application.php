@@ -11,6 +11,16 @@ use App\Routes\Routes;
  */
 class Application
 {
+    private UserController $userController;
+
+    /**
+     * Application constructor.
+     */
+    public function __construct()
+    {
+        $this->userController = new UserController();
+    }
+
 
     /**
      * Responsável por carregar dependências iniciais
@@ -27,14 +37,20 @@ class Application
         return $this;
     }
 
-    /**
-     * @return bool|string
-     */
+
     public function run()
     {
-        /**
-         * TODO Funções de rota
-         */
+        $this->user();
+
         return Routes::run();
+    }
+
+    public function user()
+    {
+        $userController = $this->userController;
+
+        Routes::post('/user', function () use ($userController) {
+            return $userController->save();
+        });
     }
 }

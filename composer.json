@@ -1,18 +1,19 @@
 {
-    "name": "maycon/php-puro-api",
-    "description": "Api para crud de usu\u0000rios",
-    "authors": [
-        {
-            "name": "Maycon Rafael",
-            "email": "mayconrafaelcb@gmail.com"
-        }
-    ],
-    "autoload" : {
-        "psr-4" : {
-            "App\\" : "app/"
-        }
-    },
-    "require": {
-        "vlucas/phpdotenv": "^5.4"
+  "name": "maycon/php-puro-api",
+  "description": "Api para crud de usu\u0000rios",
+  "authors": [
+    {
+      "name": "Maycon Rafael",
+      "email": "mayconrafaelcb@gmail.com"
     }
+  ],
+  "autoload": {
+    "psr-4": {
+      "App\\": "app/"
+    }
+  },
+  "require": {
+    "php": "^8.0",
+    "vlucas/phpdotenv": "^5.4"
+  }
 }
