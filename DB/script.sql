@@ -7,7 +7,7 @@ CREATE TABLE usuario
     id              INT AUTO_INCREMENT,
     nome            VARCHAR(60) NOT NULL,
     data_nascimento DATE        NOT NULL,
-    cpf             VARCHAR(11) NOT NULL,
+    cpf             VARCHAR(11) NOT NULL UNIQUE,
     rg              VARCHAR(20) NOT NULL,
     data_criacao    DATETIME DEFAULT NOW(),
     data_alteracao  DATETIME DEFAULT NOW(),

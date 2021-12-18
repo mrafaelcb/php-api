@@ -5,20 +5,34 @@ namespace App\Business;
 
 
 use App\Models\User;
+use App\Repository\UserRepository;
+use Exception;
 
 class UserBO extends AbstractBO
 {
+    private UserRepository $userRepository;
+
     public static $instance;
+
+    /**
+     * UserBO constructor.
+     */
+    public function __construct()
+    {
+        $this->userRepository = UserRepository::getInstance();
+    }
+
 
     /**
      * Responsável por salvar usuário no banco
      *
      * @param User $user
-     * @return array
+     * @return User
+     * @throws Exception
      */
-    public function save(User $user)
+    public function save(User $user): User
     {
-        return $user->toJson();
+        return $this->userRepository->save($user);
     }
 
     /**

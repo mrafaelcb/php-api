@@ -90,7 +90,7 @@ class UserController extends Controller implements ICrud
 
             $user = new User($request);
 
-            return Response::success($this->userBO->save($user));
+            return Response::success($this->userBO->save($user)->toJson());
         } catch (Exception $e) {
             return Response::error($e);
         }

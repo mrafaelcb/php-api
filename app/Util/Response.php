@@ -12,6 +12,15 @@ use Exception;
  */
 class Response
 {
+    const HTTP_CODES = [
+        Constants::HTTP_OK,
+        Constants::HTTP_CREATED,
+        Constants::HTTP_BAD_REQUEST,
+        Constants::HTTP_NOT_FOUND,
+        Constants::HTTP_UNAUTHORIZED,
+        Constants::HTTP_INTERNAL_ERROR,
+    ];
+
     /**
      * Responsável por retornar mensagem em caso de sucesso.
      *
@@ -41,6 +50,12 @@ class Response
      */
     public static function error(Exception $error): string
     {
-        return Utils::formatResponse(Utils::getDecodedMessageException($error), $error->getMessage(), $error->getCode());
+        if (array_key_exists($error->getCode(), self::HTTP_CODES)){
+            $code = self::HTTP_CODES[$error->getCode()];
+        }else{
+            $code = Constants::HTTP_INTERNAL_ERROR;
+        }
+
+        return Utils::formatResponse(Utils::getDecodedMessageException($error), $error->getMessage(), $code);
     }
 }
