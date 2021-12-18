@@ -1,0 +1,11 @@
+{
+    "name": "maycon/php-puro-api",
+    "description": "Api para crud de usu\u0000rios",
+    "authors": [
+        {
+            "name": "Maycon Rafael",
+            "email": "mayconrafaelcb@gmail.com"
+        }
+    ],
+    "require": {}
+}
