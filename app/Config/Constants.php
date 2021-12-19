@@ -44,6 +44,7 @@ class Constants
     const DATETIME = 'datetime';
     const LENGTH = 'length';
     const PHONE = 'phone';
+    const ADDRESS = 'address';
 
     /**
      * MÉTODOS HTTP

@@ -45,16 +45,6 @@ CREATE TABLE cidade
     FOREIGN KEY (fk_estado) REFERENCES estado (id)
 );
 
-CREATE TABLE bairro
-(
-    id        INT AUTO_INCREMENT,
-    nome      VARCHAR(80) NOT NULL,
-    fk_cidade INT         NOT NULL,
-    CONSTRAINT cidade_pk
-        PRIMARY KEY (id),
-    FOREIGN KEY (fk_cidade) REFERENCES cidade (id)
-);
-
 CREATE TABLE endereco
 (
     id             INT AUTO_INCREMENT,
@@ -64,11 +54,11 @@ CREATE TABLE endereco
     cep            VARCHAR(10),
     data_criacao   DATETIME DEFAULT NOW(),
     data_alteracao DATETIME DEFAULT NOW(),
-    fk_bairro      INT         NOT NULL,
+    fk_cidade      INT         NOT NULL,
     fk_usuario     INT         NOT NULL,
     CONSTRAINT endereco_pk
         PRIMARY KEY (id),
-    FOREIGN KEY (fk_bairro) REFERENCES bairro (id),
+    FOREIGN KEY (fk_cidade) REFERENCES cidade (id),
     FOREIGN KEY (fk_usuario) REFERENCES usuario (id) ON DELETE CASCADE
 );
 

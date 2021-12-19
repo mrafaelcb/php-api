@@ -16,6 +16,7 @@ class User extends AbstractModel
     private ?DateTime $dataCriacao;
     private ?DateTime $dataAlteracao;
     private ?array $telefones = [];
+    private ?array $enderecos = [];
 
     /**
      * User constructor.
@@ -33,6 +34,7 @@ class User extends AbstractModel
             $this->dataCriacao = Utils::getValueDate('data_criacao', $data);
             $this->dataAlteracao = Utils::getValueDate('data_alteracao', $data);
             $this->telefones = Utils::getValue('telefones', $data);
+            $this->enderecos = Utils::getValue('enderecos', $data);
         }
     }
 
@@ -162,5 +164,21 @@ class User extends AbstractModel
     public function setTelefones(array $telefones): void
     {
         $this->telefones = $telefones;
+    }
+
+    /**
+     * @return array
+     */
+    public function getEnderecos(): mixed
+    {
+        return !is_null($this->enderecos) ? $this->enderecos : [];
+    }
+
+    /**
+     * @param array|mixed|null $enderecos
+     */
+    public function setEnderecos(mixed $enderecos): void
+    {
+        $this->enderecos = $enderecos;
     }
 }

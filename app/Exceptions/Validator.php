@@ -67,6 +67,7 @@ class Validator
             self::min(),
             self::length(),
             self::phone(),
+            self::address(),
         );
 
         $match = explode(':', $match);
@@ -170,14 +171,42 @@ class Validator
                         'data_alteracao' => 'datetime',
                     ];
 
-                    if ($match != Constants::PHONE) {
-                        $rules = array_merge(['id' => 'required'], $rules);
-                    }
-
                     Utils::validatorRules((array)$phone, $rules);
                 } catch (Exception $e) {
                     throw $e;
                 }
+            }
+        }];
+    }
+
+    /**
+     * Responsável por validar endereço
+     *
+     * @return Closure[]
+     */
+    public static function address()
+    {
+        return [Constants::ADDRESS => function ($value, $match = null) {
+            if (count($value) > 0) {
+                foreach ($value as $address) {
+                    try {
+                        $rules = [
+                            'logradouro' => 'required|max:80',
+                            'complemento' => 'max:80',
+                            'numero' => 'max:80',
+                            'cep' => 'length:8',
+                            'data_criacao' => 'datetime',
+                            'data_alteracao' => 'datetime',
+                            'fk_cidade' => '',
+                        ];
+
+                        Utils::validatorRules((array)$address, $rules);
+                    } catch (Exception $e) {
+                        throw $e;
+                    }
+                }
+            } else {
+                throw new CustomException(Constants::MSG_FALHA_REQUISICAO, Constants::HTTP_BAD_REQUEST, ["requiredOne" => true]);
             }
         }];
     }

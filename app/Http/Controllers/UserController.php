@@ -97,6 +97,7 @@ class UserController extends Controller implements ICrud
                 'data_criacao' => 'datetime',
                 'data_alteracao' => 'datetime',
                 'telefones' => 'phone:true',
+                'enderecos' => 'address',
             ];
 
             $request = Utils::getValuesNotNull($request, array_keys($rules), []);
@@ -130,6 +131,7 @@ class UserController extends Controller implements ICrud
                 'data_criacao' => 'datetime',
                 'data_alteracao' => 'datetime',
                 'telefones' => 'phone',
+                'enderecos' => 'address',
             ];
 
             $request = Utils::getValuesNotNull($request, array_keys($rules));

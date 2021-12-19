@@ -6,6 +6,7 @@ namespace App\Repository;
 
 use App\Config\Constants;
 use App\Exceptions\CustomException;
+use App\Models\Address;
 use App\Models\Phone;
 use App\Models\User;
 use Exception;
@@ -15,6 +16,7 @@ class UserRepository
 {
     private Connection $connection;
     private PhoneRepository $phoneRepository;
+    private AddressRepository $addressRepository;
     public static $instance;
 
     /**
@@ -45,6 +47,12 @@ class UserRepository
                 $phone = new Phone($phone);
                 $phone->setFkUsuario($user->getId());
                 $this->phoneRepository->save($phone);
+            }
+
+            foreach ($user->getEnderecos() as $address) {
+                $address = new Address($address);
+                $address->setFkUsuario($user->getId());
+                $this->addressRepository->save($address);
             }
 
             $this->connection->commit();
@@ -81,7 +89,25 @@ class UserRepository
             ]);
 
             foreach ($user->getTelefones() as $phone) {
-                $this->phoneRepository->edit(new Phone($phone));
+                $phone = new Phone($phone);
+
+                if ($phone->getId()) {
+                    $this->phoneRepository->edit($phone);
+                } else {
+                    $phone->setFkUsuario($user->getId());
+                    $this->phoneRepository->save($phone);
+                }
+            }
+
+            foreach ($user->getEnderecos() as $address) {
+                $address = new Address($address);
+                
+                if ($address->getId()) {
+                    $this->addressRepository->edit($address);
+                } else {
+                    $address->setFkUsuario($user->getId());
+                    $this->addressRepository->save($address);
+                }
             }
 
             $this->connection->commit();
@@ -182,6 +208,7 @@ class UserRepository
     {
         $user = new User($user);
         $user->setTelefones($this->phoneRepository->getByUserId($user->getId()));
+        $user->setEnderecos($this->addressRepository->getByUserId($user->getId()));
         return $user;
     }
 
@@ -192,6 +219,7 @@ class UserRepository
     {
         $this->connection = Connection::getInstance();
         $this->phoneRepository = PhoneRepository::getInstance();
+        $this->addressRepository = AddressRepository::getInstance();
     }
 
     /**
