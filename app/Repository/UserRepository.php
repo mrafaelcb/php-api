@@ -192,6 +192,28 @@ class UserRepository
     }
 
     /**
+     * Responsável por verificar existência de um cpf
+     *
+     * @param string $cpf
+     * @return int
+     * @throws Exception
+     */
+    public function uniqueCpf(string $cpf): int
+    {
+        try {
+            $query = "SELECT COUNT(*) FROM usuario WHERE cpf = ?";
+
+            $stmt = Connection::getInstance()->prepare($query);
+
+            $stmt->execute([$cpf]);
+
+            return $stmt->fetchColumn();
+        } catch (Exception $e) {
+            throw $e;
+        }
+    }
+
+    /**
      * Responsável por deletar usuário por id
      *
      * @param string $id

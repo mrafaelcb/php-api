@@ -3,6 +3,7 @@
 namespace App\Exceptions;
 
 
+use App\Business\UserBO;
 use App\Config\Constants;
 use App\Util\Utils;
 use Closure;
@@ -68,6 +69,7 @@ class Validator
             self::length(),
             self::phone(),
             self::address(),
+            self::uniqueCpf(),
         );
 
         $match = explode(':', $match);
@@ -151,6 +153,17 @@ class Validator
                 return false;
             }
             return true;
+        }];
+    }
+
+    public static function uniqueCpf()
+    {
+        return [Constants::UNIQUE_CPF => function ($value, $match = null) {
+            if (UserBO::getInstance()->uniqueCpf($value) > intval($match)) {
+                return true;
+            }
+
+            return false;
         }];
     }
 

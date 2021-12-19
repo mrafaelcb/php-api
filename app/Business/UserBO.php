@@ -87,6 +87,18 @@ class UserBO extends AbstractBO
     }
 
     /**
+     * Responsável por verificar se existe na base
+     *
+     * @param $cpf
+     * @return int
+     * @throws Exception
+     */
+    public function uniqueCpf($cpf): int
+    {
+        return $this->userRepository->uniqueCpf($cpf);
+    }
+
+    /**
      * Responsável pelo Singleton
      *
      * @return UserBO

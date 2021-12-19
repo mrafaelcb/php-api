@@ -92,7 +92,7 @@ class UserController extends Controller implements ICrud
             $rules = [
                 'id' => 'required',
                 'nome' => 'required|max:60|min:10',
-                'data_nascimento' => 'required|datetime',
+                'data_nascimento' => 'required|datetime|uniqueCpf:1',
                 'cpf' => 'required|length:11',
                 'rg' => 'required|max:20|min:6',
                 'data_criacao' => 'datetime',
@@ -127,7 +127,7 @@ class UserController extends Controller implements ICrud
             $rules = [
                 'nome' => 'required|max:60|min:10',
                 'data_nascimento' => 'required|datetime',
-                'cpf' => 'required|length:11',
+                'cpf' => 'required|length:11|uniqueCpf:0',
                 'rg' => 'required|max:20|min:6',
                 'data_criacao' => 'datetime',
                 'data_alteracao' => 'datetime',

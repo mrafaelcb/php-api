@@ -45,6 +45,7 @@ class Constants
     const LENGTH = 'length';
     const PHONE = 'phone';
     const ADDRESS = 'address';
+    const UNIQUE_CPF = 'uniqueCpf';
 
     /**
      * MÉTODOS HTTP
