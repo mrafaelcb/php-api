@@ -65,9 +65,11 @@ CREATE TABLE endereco
     data_criacao   DATETIME DEFAULT NOW(),
     data_alteracao DATETIME DEFAULT NOW(),
     fk_bairro      INT         NOT NULL,
+    fk_usuario     INT         NOT NULL,
     CONSTRAINT endereco_pk
         PRIMARY KEY (id),
-    FOREIGN KEY (fk_bairro) REFERENCES bairro (id)
+    FOREIGN KEY (fk_bairro) REFERENCES bairro (id),
+    FOREIGN KEY (fk_usuario) REFERENCES usuario (id) ON DELETE CASCADE
 );
 
 CREATE TABLE telefone
@@ -77,20 +79,8 @@ CREATE TABLE telefone
     numero         VARCHAR(9) NOT NULL,
     data_criacao   DATETIME DEFAULT NOW(),
     data_alteracao DATETIME DEFAULT NOW(),
-    fk_usuario     INT         NOT NULL,
+    fk_usuario     INT        NOT NULL,
     CONSTRAINT telefone_pk
         PRIMARY KEY (id),
     FOREIGN KEY (fk_usuario) REFERENCES usuario (id) ON DELETE CASCADE
-);
-
-CREATE TABLE usuario_endereco
-(
-    id          INT AUTO_INCREMENT,
-    ativo       BOOLEAN DEFAULT TRUE,
-    fk_usuario  INT NOT NULL,
-    fk_endereco INT NOT NULL,
-    CONSTRAINT usuario_endereco_pk
-        PRIMARY KEY (id),
-    CONSTRAINT usuario_endereco_pk_usuario FOREIGN KEY (fk_usuario) REFERENCES usuario (id)  ON DELETE CASCADE,
-    CONSTRAINT usuario_endereco_pk_endereco FOREIGN KEY (fk_endereco) REFERENCES endereco (id)  ON DELETE CASCADE
 );
