@@ -31,7 +31,6 @@ class UserController extends Controller implements ICrud
         $this->request = new Request();
     }
 
-
     /**
      * Responsável por retornar usuário por id
      *
@@ -91,7 +90,8 @@ class UserController extends Controller implements ICrud
                 'cpf' => 'required|equals:11',
                 'rg' => 'required|max:20|min:6',
                 'data_criacao' => 'datetime',
-                'data_alteracao' => 'datetime'
+                'data_alteracao' => 'datetime',
+                'telefones' => ''
             ];
 
             $request = Utils::getValuesNotNull($request, array_keys($rules));

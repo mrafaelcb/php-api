@@ -74,7 +74,7 @@ CREATE TABLE telefone
 (
     id             INT AUTO_INCREMENT,
     ddd            VARCHAR(20) NOT NULL,
-    numero         VARCHAR(80),
+    numero         VARCHAR(80) NOT NULL,
     data_criacao   DATETIME DEFAULT NOW(),
     data_alteracao DATETIME DEFAULT NOW(),
     fk_usuario     INT         NOT NULL,

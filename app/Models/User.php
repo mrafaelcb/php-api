@@ -15,6 +15,7 @@ class User extends AbstractModel
     private string $rg;
     private ?DateTime $dataCriacao;
     private ?DateTime $dataAlteracao;
+    private ?array $telefones = [];
 
     /**
      * User constructor.
@@ -31,6 +32,7 @@ class User extends AbstractModel
             $this->rg = Utils::getValue('rg', $data);
             $this->dataCriacao = Utils::getValueDate('data_criacao', $data);
             $this->dataAlteracao = Utils::getValueDate('data_alteracao', $data);
+            $this->telefones = Utils::getValue('telefones', $data);
         }
     }
 
@@ -144,5 +146,21 @@ class User extends AbstractModel
     public function setDataAlteracao(DateTime $dataAlteracao): void
     {
         $this->dataAlteracao = $dataAlteracao;
+    }
+
+    /**
+     * @return array
+     */
+    public function getTelefones(): array
+    {
+        return !is_null($this->telefones) ? $this->telefones : [];
+    }
+
+    /**
+     * @param array $telefones
+     */
+    public function setTelefones(array $telefones): void
+    {
+        $this->telefones = $telefones;
     }
 }

@@ -85,6 +85,10 @@ class Utils
      */
     public static function getValueDate($index, $array): ?DateTime
     {
+        if ($array instanceof Stdclass) {
+            return property_exists($array, $index) && isset($array->$index) ? $array->$index : null;
+        }
+
         if (array_key_exists($index, $array)) {
             try {
                 return new DateTime($array[$index]);
