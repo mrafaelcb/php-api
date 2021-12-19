@@ -164,12 +164,15 @@ class Validator
             foreach ($value as $phone) {
                 try {
                     $rules = [
-                        'id' => 'required',
                         'ddd' => 'required|length:2',
                         'numero' => 'required|length:9',
                         'data_criacao' => 'datetime',
                         'data_alteracao' => 'datetime',
                     ];
+
+                    if ($match != Constants::PHONE) {
+                        $rules = array_merge(['id' => 'required'], $rules);
+                    }
 
                     Utils::validatorRules((array)$phone, $rules);
                 } catch (Exception $e) {

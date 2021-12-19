@@ -96,7 +96,7 @@ class UserController extends Controller implements ICrud
                 'rg' => 'required|max:20|min:6',
                 'data_criacao' => 'datetime',
                 'data_alteracao' => 'datetime',
-                'telefones' => 'phone',
+                'telefones' => 'phone:true',
             ];
 
             $request = Utils::getValuesNotNull($request, array_keys($rules), []);
@@ -129,7 +129,7 @@ class UserController extends Controller implements ICrud
                 'rg' => 'required|max:20|min:6',
                 'data_criacao' => 'datetime',
                 'data_alteracao' => 'datetime',
-                'telefones' => ''
+                'telefones' => 'phone',
             ];
 
             $request = Utils::getValuesNotNull($request, array_keys($rules));
