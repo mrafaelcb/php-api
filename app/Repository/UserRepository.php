@@ -112,6 +112,28 @@ class UserRepository
     }
 
     /**
+     * Responsável por deletar usuário por id
+     *
+     * @param string $id
+     * @return array
+     * @throws Exception
+     */
+    public function deleteById(string $id): array
+    {
+        try {
+            $query = "DELETE FROM usuario WHERE id = ?";
+
+            $stmt = Connection::getInstance()->prepare($query);
+
+            $stmt->execute([$id]);
+
+            return ["rows_affected" => $stmt->rowCount()];
+        } catch (Exception $e) {
+            throw $e;
+        }
+    }
+
+    /**
      * Responsável por retornar usuário
      *
      * @param $user

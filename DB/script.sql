@@ -80,7 +80,7 @@ CREATE TABLE telefone
     fk_usuario     INT         NOT NULL,
     CONSTRAINT telefone_pk
         PRIMARY KEY (id),
-    FOREIGN KEY (fk_usuario) REFERENCES usuario (id)
+    FOREIGN KEY (fk_usuario) REFERENCES usuario (id) ON DELETE CASCADE
 );
 
 CREATE TABLE usuario_endereco
@@ -91,6 +91,6 @@ CREATE TABLE usuario_endereco
     fk_endereco INT NOT NULL,
     CONSTRAINT usuario_endereco_pk
         PRIMARY KEY (id),
-    CONSTRAINT usuario_endereco_pk_usuario FOREIGN KEY (fk_usuario) REFERENCES usuario (id),
-    CONSTRAINT usuario_endereco_pk_endereco FOREIGN KEY (fk_endereco) REFERENCES endereco (id)
+    CONSTRAINT usuario_endereco_pk_usuario FOREIGN KEY (fk_usuario) REFERENCES usuario (id)  ON DELETE CASCADE,
+    CONSTRAINT usuario_endereco_pk_endereco FOREIGN KEY (fk_endereco) REFERENCES endereco (id)  ON DELETE CASCADE
 );

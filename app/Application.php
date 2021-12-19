@@ -53,6 +53,10 @@ class Application
             return $userController->get();
         });
 
+        Routes::delete('/user', function () use ($userController) {
+            return $userController->delete();
+        });
+
         Routes::post('/user', function () use ($userController) {
             return $userController->save();
         });

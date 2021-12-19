@@ -57,11 +57,25 @@ class UserController extends Controller implements ICrud
     /**
      * Responsável por deletar usuário
      *
-     * @return mixed
+     * @return User|string
      */
-    public function delete(): mixed
+    public function delete(): User|string
     {
-        // TODO: Implement delete() method.
+        $request = $this->request->getBody();
+
+        try {
+            $rules = [
+                'id' => 'required',
+            ];
+
+            $request = Utils::getValuesNotNull($request, array_keys($rules), []);
+
+            Utils::validatorRules($request, $rules);
+
+            return Response::success($this->userBO->deleteById(Utils::getValue('id', $request)));
+        } catch (Exception $e) {
+            return Response::error($e);
+        }
     }
 
     /**

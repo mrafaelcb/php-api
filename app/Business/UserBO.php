@@ -48,6 +48,18 @@ class UserBO extends AbstractBO
     }
 
     /**
+     * Responsável por deletar usuário no banco
+     *
+     * @param $id
+     * @return array
+     * @throws Exception
+     */
+    public function deleteById($id): array
+    {
+        return $this->userRepository->deleteById($id);
+    }
+
+    /**
      * Responsável pelo Singleton
      *
      * @return UserBO
