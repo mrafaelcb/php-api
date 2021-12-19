@@ -64,6 +64,17 @@ class UserBO extends AbstractBO
     }
 
     /**
+     * Responsável por listar todos usuários
+     *
+     * @return array
+     * @throws Exception
+     */
+    public function all(): array
+    {
+        return $this->userRepository->all();
+    }
+
+    /**
      * Responsável por deletar usuário no banco
      *
      * @param $id

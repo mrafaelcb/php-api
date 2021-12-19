@@ -41,19 +41,11 @@ class UserRepository
                 $user->getCpf(),
                 $user->getRg()
             ]);
+
             $user->setId($this->connection->lastInsertId());
 
-            foreach ($user->getTelefones() as $phone) {
-                $phone = new Phone($phone);
-                $phone->setFkUsuario($user->getId());
-                $this->phoneRepository->save($phone);
-            }
-
-            foreach ($user->getEnderecos() as $address) {
-                $address = new Address($address);
-                $address->setFkUsuario($user->getId());
-                $this->addressRepository->save($address);
-            }
+            $this->savePhone($user);
+            $this->saveAddress($user);
 
             $this->connection->commit();
 
@@ -88,27 +80,9 @@ class UserRepository
                 'data_alteracao' => date(Constants::DATA_FORMAT),
             ]);
 
-            foreach ($user->getTelefones() as $phone) {
-                $phone = new Phone($phone);
+            $this->savePhone($user, true);
+            $this->saveAddress($user, true);
 
-                if ($phone->getId()) {
-                    $this->phoneRepository->edit($phone);
-                } else {
-                    $phone->setFkUsuario($user->getId());
-                    $this->phoneRepository->save($phone);
-                }
-            }
-
-            foreach ($user->getEnderecos() as $address) {
-                $address = new Address($address);
-                
-                if ($address->getId()) {
-                    $this->addressRepository->edit($address);
-                } else {
-                    $address->setFkUsuario($user->getId());
-                    $this->addressRepository->save($address);
-                }
-            }
 
             $this->connection->commit();
 
@@ -116,6 +90,48 @@ class UserRepository
         } catch (Exception $e) {
             $this->connection->rollBack();
             throw $e;
+        }
+    }
+
+    /**
+     * Responsável por salvar ou editar endereço
+     *
+     * @param $user
+     * @param $isEdit
+     * @throws Exception
+     */
+    public function saveAddress($user, $isEdit = false)
+    {
+        foreach ($user->getEnderecos() as $address) {
+            $address = new Address($address);
+
+            if ($isEdit && $address->getId()) {
+                $this->addressRepository->edit($address);
+            } else {
+                $address->setFkUsuario($user->getId());
+                $this->addressRepository->save($address);
+            }
+        }
+    }
+
+    /**
+     * Responsável por salvar ou editar telefone
+     *
+     * @param $user
+     * @param $isEdit
+     * @throws Exception
+     */
+    public function savePhone($user, $isEdit = false)
+    {
+        foreach ($user->getTelefones() as $phone) {
+            $phone = new Phone($phone);
+
+            if ($isEdit && $phone->getId()) {
+                $this->phoneRepository->edit($phone);
+            } else {
+                $phone->setFkUsuario($user->getId());
+                $this->phoneRepository->save($phone);
+            }
         }
     }
 
@@ -210,6 +226,33 @@ class UserRepository
         $user->setTelefones($this->phoneRepository->getByUserId($user->getId()));
         $user->setEnderecos($this->addressRepository->getByUserId($user->getId()));
         return $user;
+    }
+
+    /**
+     * Responsável por listar todos usuários
+     *
+     * @return array
+     * @throws Exception
+     */
+    public function all()
+    {
+        try {
+            $query = "SELECT * FROM usuario";
+
+            $stmt = Connection::getInstance()->prepare($query);
+
+            $stmt->execute();
+
+            $users = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+            $list = [];
+            foreach ($users as $user) {
+                array_push($list, $this->returnUser($user)->toJson());
+            }
+            return $list;
+        } catch (Exception $e) {
+            throw $e;
+        }
     }
 
     /**

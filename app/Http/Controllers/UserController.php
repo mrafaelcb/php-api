@@ -39,6 +39,7 @@ class UserController extends Controller implements ICrud
     public function get(): User|string
     {
         $request = $this->request->getBody();
+
         try {
             $rules = [
                 'id' => 'required',
@@ -151,9 +152,10 @@ class UserController extends Controller implements ICrud
      * Responsável por salvar usuário
      *
      * @return bool|string
+     * @throws Exception
      */
     public function all(): bool|string
     {
-        // TODO: Implement all() method.
+        return Response::success($this->userBO->all());
     }
 }

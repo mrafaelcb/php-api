@@ -67,5 +67,9 @@ class Application
         Routes::post('/user', function () use ($userController) {
             return $userController->save();
         });
+
+        Routes::get('/users', function () use ($userController) {
+            return $userController->all();
+        });
     }
 }
