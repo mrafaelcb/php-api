@@ -3,6 +3,7 @@
 namespace App\Util;
 
 use App\Config\Constants;
+use App\Exceptions\CustomException;
 use Exception;
 
 /**
@@ -46,10 +47,10 @@ class Response
     /**
      * Responsável por retornar mensagem em caso de erro.
      *
-     * @param Exception $error
+     * @param Exception|CustomException $error
      * @return string
      */
-    public static function error(Exception $error): string
+    public static function error(Exception|CustomException $error): string
     {
         if (array_key_exists($error->getCode(), self::HTTP_CODES)) {
             $code = self::HTTP_CODES[$error->getCode()];

@@ -81,11 +81,35 @@ class UserController extends Controller implements ICrud
     /**
      * Responsável por editar usuário
      *
-     * @return User
+     * @return User|string
      */
-    public function edit(): User
+    public function edit(): User|string
     {
-        // TODO: Implement edit() method.
+        $request = $this->request->getBody();
+
+        try {
+            $rules = [
+                'id' => 'required',
+                'nome' => 'required|max:60|min:10',
+                'data_nascimento' => 'required|datetime',
+                'cpf' => 'required|length:11',
+                'rg' => 'required|max:20|min:6',
+                'data_criacao' => 'datetime',
+                'data_alteracao' => 'datetime',
+                'telefones' => 'phone',
+            ];
+
+            $request = Utils::getValuesNotNull($request, array_keys($rules), []);
+
+
+            Utils::validatorRules($request, $rules);
+
+            $user = new User($request);
+
+            return Response::success($this->userBO->edit($user)->toJson(), Constants::HTTP_CREATED);
+        } catch (Exception $e) {
+            return Response::error($e);
+        }
     }
 
     /**
@@ -101,7 +125,7 @@ class UserController extends Controller implements ICrud
             $rules = [
                 'nome' => 'required|max:60|min:10',
                 'data_nascimento' => 'required|datetime',
-                'cpf' => 'required|equals:11',
+                'cpf' => 'required|length:11',
                 'rg' => 'required|max:20|min:6',
                 'data_criacao' => 'datetime',
                 'data_alteracao' => 'datetime',

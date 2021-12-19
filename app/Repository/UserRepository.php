@@ -5,6 +5,7 @@ namespace App\Repository;
 
 
 use App\Config\Constants;
+use App\Exceptions\CustomException;
 use App\Models\Phone;
 use App\Models\User;
 use Exception;
@@ -56,6 +57,43 @@ class UserRepository
     }
 
     /**
+     * Responsável por salvar usuário
+     *
+     * @param User $user
+     * @return User
+     * @throws Exception
+     */
+    public function edit(User $user): User
+    {
+        try {
+            $this->connection->beginTransaction();
+            $query = "UPDATE usuario SET nome = :nome, data_nascimento = :data_nascimento, cpf = :cpf, rg = :rg, data_alteracao = :data_alteracao WHERE id = :id";
+
+            $stmt = $this->connection->prepare($query);
+
+            $stmt->execute([
+                'nome' => $user->getNome(),
+                'data_nascimento' => $user->getDataNascimento()->format(Constants::DATA_FORMAT),
+                'cpf' => $user->getCpf(),
+                'rg' => $user->getRg(),
+                'id' => $user->getId(),
+                'data_alteracao' => date(Constants::DATA_FORMAT),
+            ]);
+
+            foreach ($user->getTelefones() as $phone) {
+                $this->phoneRepository->edit(new Phone($phone));
+            }
+
+            $this->connection->commit();
+
+            return $this->getById($user->getId());
+        } catch (Exception $e) {
+            $this->connection->rollBack();
+            throw $e;
+        }
+    }
+
+    /**
      * Responsável por retornar usuário por cpf
      *
      * @param string $cpf
@@ -77,7 +115,7 @@ class UserRepository
                 return $this->returnUser($user);
             }
 
-            throw new Exception(Constants::MSG_REGISTRO_NAO_ENCONTRADO, Constants::HTTP_NOT_FOUND);
+            throw new CustomException(Constants::MSG_REGISTRO_NAO_ENCONTRADO, Constants::HTTP_NOT_FOUND);
         } catch (Exception $e) {
             throw $e;
         }
@@ -105,7 +143,7 @@ class UserRepository
                 return $this->returnUser($user);
             }
 
-            throw new Exception(Constants::MSG_REGISTRO_NAO_ENCONTRADO, Constants::HTTP_NOT_FOUND);
+            throw new CustomException(Constants::MSG_REGISTRO_NAO_ENCONTRADO, Constants::HTTP_NOT_FOUND);
         } catch (Exception $e) {
             throw $e;
         }

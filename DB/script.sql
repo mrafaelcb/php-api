@@ -73,8 +73,8 @@ CREATE TABLE endereco
 CREATE TABLE telefone
 (
     id             INT AUTO_INCREMENT,
-    ddd            VARCHAR(20) NOT NULL,
-    numero         VARCHAR(80) NOT NULL,
+    ddd            VARCHAR(2) NOT NULL,
+    numero         VARCHAR(9) NOT NULL,
     data_criacao   DATETIME DEFAULT NOW(),
     data_alteracao DATETIME DEFAULT NOW(),
     fk_usuario     INT         NOT NULL,

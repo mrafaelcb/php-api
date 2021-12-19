@@ -3,6 +3,7 @@
 namespace App\Util;
 
 use App\Config\Constants;
+use App\Exceptions\CustomException;
 use App\Exceptions\Validator;
 use DateTime;
 use Exception;
@@ -43,15 +44,16 @@ class Utils
     /**
      * Responsável por retornar mensagem de exceção
      *
-     * @param Exception $e
+     * @param Exception|CustomException $e
      * @return mixed
      */
-    public static function getDecodedMessageException(Exception $e): mixed
+    public static function getDecodedMessageException(Exception|CustomException $e): mixed
     {
         return [
             "file" => basename($e->getFile()),
             "code" => $e->getCode(),
             "line" => $e->getLine(),
+            "description" => $e instanceof CustomException ? json_decode(json_encode($e->getDescription())) : $e->getTraceAsString(),
         ];
     }
 
@@ -86,14 +88,22 @@ class Utils
     public static function getValueDate($index, $array): ?DateTime
     {
         if ($array instanceof Stdclass) {
-            return property_exists($array, $index) && isset($array->$index) ? $array->$index : null;
+            if (property_exists($array, $index) && isset($array->$index)) {
+                try {
+                    return new DateTime($array->$index);
+                } catch (Exception $e) {
+                    throw new CustomException(Constants::MSG_FALHA_REQUISICAO, Constants::HTTP_BAD_REQUEST);
+                }
+            }
+
+            return null;
         }
 
         if (array_key_exists($index, $array)) {
             try {
                 return new DateTime($array[$index]);
             } catch (Exception $e) {
-                throw new Exception(Constants::MSG_FALHA_REQUISICAO, Constants::HTTP_BAD_REQUEST);
+                throw new CustomException(Constants::MSG_FALHA_REQUISICAO, Constants::HTTP_BAD_REQUEST);
             }
         }
         return null;
@@ -136,7 +146,7 @@ class Utils
         $validacao = Validator::valid($request, $rules);
 
         if (count($validacao) > 0) {
-            throw new Exception(Constants::MSG_FALHA_REQUISICAO, Constants::HTTP_BAD_REQUEST);
+            throw new CustomException(Constants::MSG_FALHA_REQUISICAO, Constants::HTTP_BAD_REQUEST, $validacao);
         }
     }
 

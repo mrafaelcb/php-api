@@ -4,6 +4,10 @@
 namespace App\Http\Controllers\Interfaces;
 
 
+/**
+ * Interface ICrud
+ * @package App\Http\Controllers\Interfaces
+ */
 interface ICrud
 {
     /**

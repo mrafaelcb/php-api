@@ -42,7 +42,8 @@ class Constants
     const MIN = 'min';
     const MAX = 'max';
     const DATETIME = 'datetime';
-    const LENGTH = 'equals';
+    const LENGTH = 'length';
+    const PHONE = 'phone';
 
     /**
      * MÉTODOS HTTP

@@ -8,6 +8,10 @@ use App\Models\User;
 use App\Repository\UserRepository;
 use Exception;
 
+/**
+ * Class UserBO
+ * @package App\Business
+ */
 class UserBO extends AbstractBO
 {
     private UserRepository $userRepository;
@@ -33,6 +37,18 @@ class UserBO extends AbstractBO
     public function save(User $user): User
     {
         return $this->userRepository->save($user);
+    }
+
+    /**
+     * Responsável por editar usuário no banco
+     *
+     * @param User $user
+     * @return User
+     * @throws Exception
+     */
+    public function edit(User $user): User
+    {
+        return $this->userRepository->edit($user);
     }
 
     /**

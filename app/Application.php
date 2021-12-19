@@ -45,6 +45,9 @@ class Application
         return Routes::run();
     }
 
+    /**
+     * Responsável por listar rotas de usuários
+     */
     public function user()
     {
         $userController = $this->userController;
@@ -55,6 +58,10 @@ class Application
 
         Routes::delete('/user', function () use ($userController) {
             return $userController->delete();
+        });
+
+        Routes::put('/user', function () use ($userController) {
+            return $userController->edit();
         });
 
         Routes::post('/user', function () use ($userController) {

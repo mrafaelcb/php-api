@@ -8,8 +8,17 @@ use App\Config\Constants;
 use App\Util\Utils;
 use ReflectionClass;
 
+/**
+ * Class AbstractModel
+ * @package App\Models
+ */
 class AbstractModel
 {
+    /**
+     * Responsável por transformar em json
+     *
+     * @return array
+     */
     public function toJson()
     {
         $json = array();

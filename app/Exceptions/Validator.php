@@ -4,9 +4,14 @@ namespace App\Exceptions;
 
 
 use App\Config\Constants;
+use App\Util\Utils;
 use Closure;
 use Exception;
 
+/**
+ * Class Validator
+ * @package App\Exceptions
+ */
 class Validator
 {
     /**
@@ -23,18 +28,19 @@ class Validator
             $matchs = explode('|', $value);
             if (count($matchs) > 0 && current($matchs) != "") {
                 foreach ($matchs as $match) {
-                    if (strpos($value, Constants::REQUIRED)) {
+                    $error = explode(':', $match);
+                    if (in_array(Constants::REQUIRED, $matchs)) {
                         if (array_key_exists($key, $request)) {
                             if (self::matchs($match, $request[$key])) {
-                                $errors[$key][$match] = $key;
+                                $errors[$key][current($error)] = end($error);
                             }
                         } else {
-                            $errors[$key][$match] = $key;
+                            $errors[$key][current($error)] = end($error);
                         }
                     } else {
                         if (array_key_exists($key, $request)) {
                             if (self::matchs($match, $request[$key])) {
-                                $errors[$key][$match] = $key;
+                                $errors[$key][current($error)] = end($error);
                             }
                         }
                     }
@@ -60,6 +66,7 @@ class Validator
             self::max(),
             self::min(),
             self::length(),
+            self::phone(),
         );
 
         $match = explode(':', $match);
@@ -140,9 +147,35 @@ class Validator
     {
         return [Constants::LENGTH => function ($value, $match = null) {
             if (strlen($value) == $match) {
-                return true;
+                return false;
             }
-            return false;
+            return true;
+        }];
+    }
+
+    /**
+     * Responsável por validar telefone
+     *
+     * @return Closure[]
+     */
+    public static function phone()
+    {
+        return [Constants::PHONE => function ($value, $match = null) {
+            foreach ($value as $phone) {
+                try {
+                    $rules = [
+                        'id' => 'required',
+                        'ddd' => 'required|length:2',
+                        'numero' => 'required|length:9',
+                        'data_criacao' => 'datetime',
+                        'data_alteracao' => 'datetime',
+                    ];
+
+                    Utils::validatorRules((array)$phone, $rules);
+                } catch (Exception $e) {
+                    throw $e;
+                }
+            }
         }];
     }
 }

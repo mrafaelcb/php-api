@@ -3,6 +3,7 @@
 
 namespace App\Repository;
 
+use App\Config\Constants;
 use App\Models\Phone;
 use Exception;
 use PDO;
@@ -34,6 +35,30 @@ class PhoneRepository
                 $phone->getDdd(),
                 $phone->getNumero(),
                 $phone->getFkUsuario(),
+            ]);
+        } catch (Exception $e) {
+            throw $e;
+        }
+    }
+
+    /**
+     * Responsável por editar telefone
+     *
+     * @param Phone $phone
+     * @return bool
+     * @throws Exception
+     */
+    public function edit(Phone $phone): bool
+    {
+        try {
+            $query = "UPDATE telefone SET ddd = :ddd, numero = :numero, data_alteracao = :data_alteracao WHERE id = :id";
+
+            $stmt = $this->connection->prepare($query);
+            return $stmt->execute([
+                'ddd' => $phone->getDdd(),
+                'numero' => $phone->getNumero(),
+                'id' => $phone->getId(),
+                'data_alteracao' => date(Constants::DATA_FORMAT),
             ]);
         } catch (Exception $e) {
             throw $e;
