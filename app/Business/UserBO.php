@@ -36,6 +36,18 @@ class UserBO extends AbstractBO
     }
 
     /**
+     * Responsável por salvar usuário no banco
+     *
+     * @param $id
+     * @return User
+     * @throws Exception
+     */
+    public function getById($id): User
+    {
+        return $this->userRepository->getById($id);
+    }
+
+    /**
      * Responsável pelo Singleton
      *
      * @return UserBO

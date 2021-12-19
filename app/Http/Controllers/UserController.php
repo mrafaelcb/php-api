@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Business\UserBO;
+use App\Config\Constants;
 use App\Http\Controllers\Interfaces\ICrud;
 use App\Models\User;
 use App\Util\Request;
@@ -34,21 +35,32 @@ class UserController extends Controller implements ICrud
     /**
      * Responsável por retornar usuário por id
      *
-     * @param $id
-     * @return User
+     * @return User|string
      */
-    public function get($id): User
+    public function get(): User|string
     {
-        // TODO: Implement get() method.
+        $request = $this->request->getBody();
+        try {
+            $rules = [
+                'id' => 'required',
+            ];
+
+            $request = Utils::getValuesNotNull($request, array_keys($rules), []);
+
+            Utils::validatorRules($request, $rules);
+
+            return Response::success($this->userBO->getById(Utils::getValue('id', $request))->toJson());
+        } catch (Exception $e) {
+            return Response::error($e);
+        }
     }
 
     /**
      * Responsável por deletar usuário
      *
-     * @param $id
      * @return mixed
      */
-    public function delete($id): mixed
+    public function delete(): mixed
     {
         // TODO: Implement delete() method.
     }
@@ -56,10 +68,9 @@ class UserController extends Controller implements ICrud
     /**
      * Responsável por editar usuário
      *
-     * @param $id
      * @return User
      */
-    public function edit($id): User
+    public function edit(): User
     {
         // TODO: Implement edit() method.
     }
@@ -90,7 +101,7 @@ class UserController extends Controller implements ICrud
 
             $user = new User($request);
 
-            return Response::success($this->userBO->save($user)->toJson());
+            return Response::success($this->userBO->save($user)->toJson(), Constants::HTTP_CREATED);
         } catch (Exception $e) {
             return Response::error($e);
         }

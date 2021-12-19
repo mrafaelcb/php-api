@@ -32,6 +32,7 @@ class Constants
     const MSG_NOT_FOUND = 'Página não encontrada.';
     const MSG_INTERNAL_ERROR = 'Houve um erro interno. Tente novamente mais tarde.';
     const MSG_FALHA_REQUISICAO = 'Operação não concluida.';
+    const MSG_REGISTRO_NAO_ENCONTRADO = 'Registro não encontrado.';
 
 
     /**

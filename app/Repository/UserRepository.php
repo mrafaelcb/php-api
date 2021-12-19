@@ -39,7 +39,7 @@ class UserRepository
 
             $this->connection->commit();
 
-            return new User($this->getByCpf($user->getCpf()));
+            return $this->getByCpf($user->getCpf());
         } catch (Exception $e) {
             $this->connection->rollBack();
             throw $e;
@@ -62,7 +62,39 @@ class UserRepository
 
             $stmt->execute([$cpf]);
 
-            return $stmt->fetch(PDO::FETCH_ASSOC);
+            $user = $stmt->fetch(PDO::FETCH_ASSOC);
+            if ($user) {
+                return new User($user);
+            }
+
+            throw new Exception(Constants::MSG_REGISTRO_NAO_ENCONTRADO, Constants::HTTP_NOT_FOUND);
+        } catch (Exception $e) {
+            throw $e;
+        }
+    }
+
+    /**
+     * Responsável por retornar usuário por id
+     *
+     * @param string $id
+     * @return mixed
+     * @throws Exception
+     */
+    public function getById(string $id)
+    {
+        try {
+            $query = "SELECT * FROM usuario WHERE id = ?";
+
+            $stmt = Connection::getInstance()->prepare($query);
+
+            $stmt->execute([$id]);
+
+            $user = $stmt->fetch(PDO::FETCH_ASSOC);
+            if ($user) {
+                return new User($user);
+            }
+
+            throw new Exception(Constants::MSG_REGISTRO_NAO_ENCONTRADO, Constants::HTTP_NOT_FOUND);
         } catch (Exception $e) {
             throw $e;
         }

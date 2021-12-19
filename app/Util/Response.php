@@ -25,11 +25,12 @@ class Response
      * Responsável por retornar mensagem em caso de sucesso.
      *
      * @param null $data
+     * @param int $code
      * @return bool|string
      */
-    public static function success($data = null): bool|string
+    public static function success($data = null, int $code = Constants::HTTP_OK): bool|string
     {
-        return Utils::formatResponse($data);
+        return Utils::formatResponse($data, $code);
     }
 
     /**
@@ -50,9 +51,9 @@ class Response
      */
     public static function error(Exception $error): string
     {
-        if (array_key_exists($error->getCode(), self::HTTP_CODES)){
+        if (array_key_exists($error->getCode(), self::HTTP_CODES)) {
             $code = self::HTTP_CODES[$error->getCode()];
-        }else{
+        } else {
             $code = Constants::HTTP_INTERNAL_ERROR;
         }
 

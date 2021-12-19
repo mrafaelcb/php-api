@@ -49,6 +49,10 @@ class Application
     {
         $userController = $this->userController;
 
+        Routes::get('/user', function () use ($userController) {
+            return $userController->get();
+        });
+
         Routes::post('/user', function () use ($userController) {
             return $userController->save();
         });

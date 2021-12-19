@@ -9,26 +9,23 @@ interface ICrud
     /**
      * Responsável por listar por id
      *
-     * @param $id
      * @return mixed
      */
-    public function get($id): mixed;
+    public function get(): mixed;
 
     /**
      * Responsável por deletar por id
      *
-     * @param $id
      * @return mixed
      */
-    public function delete($id): mixed;
+    public function delete(): mixed;
 
     /**
      * Responsável por editar por id
      *
-     * @param $id
      * @return mixed
      */
-    public function edit($id): mixed;
+    public function edit(): mixed;
 
     /**
      * Responsável por cadastrar
