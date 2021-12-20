@@ -22,7 +22,7 @@ class Validator
      * @param $rules
      * @return array
      */
-    public static function valid($request, $rules)
+    public static function valid($request, $rules): array
     {
         $errors = [];
         foreach ($rules as $key => $value) {
@@ -59,7 +59,7 @@ class Validator
      * @param $value
      * @return mixed
      */
-    public static function matchs($match, $value)
+    public static function matchs($match, $value): mixed
     {
         $matchs = array_merge(
             self::required(),
@@ -156,6 +156,11 @@ class Validator
         }];
     }
 
+    /**
+     * Responsável por validar cpf unico
+     *
+     * @return Closure[]
+     */
     public static function uniqueCpf()
     {
         return [Constants::UNIQUE_CPF => function ($value, $match = null) {

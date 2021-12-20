@@ -156,6 +156,23 @@ class UserController extends Controller implements ICrud
      */
     public function all(): bool|string
     {
-        return Response::success($this->userBO->all());
+        $request = $this->request->getBody();
+
+        try {
+            $rules = [
+                'page' => 'required',
+                'per_page' => 'required',
+            ];
+
+            $request = Utils::getValuesNotNull($request, array_keys($rules), []);
+
+            Utils::validatorRules($request, $rules);
+
+
+            return Response::success($this->userBO->all(intval(Utils::getValue('page', $request)),intval(Utils::getValue('per_page', $request))));
+        } catch (Exception $e) {
+            return Response::error($e);
+        }
+
     }
 }

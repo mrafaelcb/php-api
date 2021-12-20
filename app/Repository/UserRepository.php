@@ -245,23 +245,32 @@ class UserRepository
     public function returnUser($user): User
     {
         $user = new User($user);
+
         $user->setTelefones($this->phoneRepository->getByUserId($user->getId()));
         $user->setEnderecos($this->addressRepository->getByUserId($user->getId()));
+
         return $user;
     }
 
     /**
      * Responsável por listar todos usuários
      *
+     * @param int $page
+     * @param int $perPage
      * @return array
      * @throws Exception
      */
-    public function all()
+    public function all(int $page, int $perPage): array
     {
         try {
-            $query = "SELECT * FROM usuario";
+            $query = "SELECT * FROM usuario ORDER BY data_criacao DESC LIMIT :page,:perPage";
 
             $stmt = Connection::getInstance()->prepare($query);
+
+            $currentPage = ($page - 1) * $perPage;
+
+            $stmt->bindParam('page', $currentPage, PDO::PARAM_INT);
+            $stmt->bindParam('perPage', $perPage, PDO::PARAM_INT);
 
             $stmt->execute();
 
@@ -271,6 +280,7 @@ class UserRepository
             foreach ($users as $user) {
                 array_push($list, $this->returnUser($user)->toJson());
             }
+
             return $list;
         } catch (Exception $e) {
             throw $e;

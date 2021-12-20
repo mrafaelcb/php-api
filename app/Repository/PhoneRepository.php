@@ -54,6 +54,7 @@ class PhoneRepository
             $query = "UPDATE telefone SET ddd = :ddd, numero = :numero, data_alteracao = :data_alteracao WHERE id = :id";
 
             $stmt = $this->connection->prepare($query);
+
             return $stmt->execute([
                 'ddd' => $phone->getDdd(),
                 'numero' => $phone->getNumero(),

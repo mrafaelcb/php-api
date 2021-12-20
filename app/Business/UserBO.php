@@ -66,12 +66,14 @@ class UserBO extends AbstractBO
     /**
      * Responsável por listar todos usuários
      *
+     * @param $page
+     * @param $perPage
      * @return array
      * @throws Exception
      */
-    public function all(): array
+    public function all($page, $perPage): array
     {
-        return $this->userRepository->all();
+        return $this->userRepository->all($page, $perPage);
     }
 
     /**

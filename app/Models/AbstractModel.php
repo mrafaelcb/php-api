@@ -19,7 +19,7 @@ class AbstractModel
      *
      * @return array
      */
-    public function toJson()
+    public function toJson(): array
     {
         $json = array();
         $class = new ReflectionClass($this);
