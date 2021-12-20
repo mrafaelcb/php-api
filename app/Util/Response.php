@@ -31,7 +31,7 @@ class Response
      */
     public static function success($data = null, int $code = Constants::HTTP_OK): bool|string
     {
-        return Utils::formatResponse($data, $code);
+        return Utils::formatResponse($data,Constants::MSG_OK, $code);
     }
 
     /**
