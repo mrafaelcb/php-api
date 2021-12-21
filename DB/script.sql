@@ -8,6 +8,7 @@ CREATE TABLE usuario
     nome            VARCHAR(60) NOT NULL,
     data_nascimento DATE        NOT NULL,
     cpf             VARCHAR(11) NOT NULL UNIQUE,
+    password        VARCHAR(16) NOT NULL,
     rg              VARCHAR(20) NOT NULL,
     data_criacao    DATETIME DEFAULT NOW(),
     data_alteracao  DATETIME DEFAULT NOW(),

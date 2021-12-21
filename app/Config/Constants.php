@@ -30,8 +30,9 @@ class Constants
      */
     const MSG_OK = 'Sucesso.';
     const MSG_NOT_FOUND = 'Página não encontrada.';
-    const MSG_FALHA_REQUISICAO = 'Operação não concluida.';
-    const MSG_REGISTRO_NAO_ENCONTRADO = 'Registro não encontrado.';
+    const MSG_ERROR_REQUEST = 'Operação não concluida.';
+    const MSG_DATA_NOT_FOUND = 'Registro não encontrado.';
+    const MSG_PASSWORD_INVALID = 'Senha inválida.';
 
 
     /**
@@ -55,7 +56,8 @@ class Constants
     const DELETE = 'DELETE';
 
     /**
-     *
+     *  UTILS
      */
     const DATA_FORMAT = 'Y-m-d H:i:s';
+    const JWT_TYPE = 'HS256';
 }

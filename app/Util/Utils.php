@@ -92,7 +92,7 @@ class Utils
                 try {
                     return new DateTime($array->$index);
                 } catch (Exception $e) {
-                    throw new CustomException(Constants::MSG_FALHA_REQUISICAO, Constants::HTTP_BAD_REQUEST);
+                    throw new CustomException(Constants::MSG_ERROR_REQUEST, Constants::HTTP_BAD_REQUEST);
                 }
             }
 
@@ -103,7 +103,7 @@ class Utils
             try {
                 return new DateTime($array[$index]);
             } catch (Exception $e) {
-                throw new CustomException(Constants::MSG_FALHA_REQUISICAO, Constants::HTTP_BAD_REQUEST);
+                throw new CustomException(Constants::MSG_ERROR_REQUEST, Constants::HTTP_BAD_REQUEST);
             }
         }
         return null;
@@ -146,7 +146,7 @@ class Utils
         $validacao = Validator::valid($request, $rules);
 
         if (count($validacao) > 0) {
-            throw new CustomException(Constants::MSG_FALHA_REQUISICAO, Constants::HTTP_BAD_REQUEST, $validacao);
+            throw new CustomException(Constants::MSG_ERROR_REQUEST, Constants::HTTP_BAD_REQUEST, $validacao);
         }
     }
 

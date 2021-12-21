@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Http\Controllers\AuthController;
 use App\Http\Controllers\UserController;
 use App\Routes\Routes;
 
@@ -12,6 +13,7 @@ use App\Routes\Routes;
 class Application
 {
     private UserController $userController;
+    private AuthController $authController;
 
     /**
      * Application constructor.
@@ -19,6 +21,7 @@ class Application
     public function __construct()
     {
         $this->userController = new UserController();
+        $this->authController = new AuthController();
     }
 
 
@@ -40,6 +43,8 @@ class Application
 
     public function run()
     {
+        $this->auth();
+
         $this->user();
 
         return Routes::run();
@@ -70,6 +75,18 @@ class Application
 
         Routes::get('/users', function () use ($userController) {
             return $userController->all();
+        });
+    }
+
+    /**
+     * Responsável por listar rotas de autenticação
+     */
+    public function auth(){
+
+        $authController = $this->authController;
+
+        Routes::post('/login', function () use ($authController) {
+            return $authController->login();
         });
     }
 }

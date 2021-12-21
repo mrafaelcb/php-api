@@ -224,7 +224,7 @@ class Validator
                     }
                 }
             } else {
-                throw new CustomException(Constants::MSG_FALHA_REQUISICAO, Constants::HTTP_BAD_REQUEST, ["requiredOne" => true]);
+                throw new CustomException(Constants::MSG_ERROR_REQUEST, Constants::HTTP_BAD_REQUEST, ["requiredOne" => true]);
             }
         }];
     }

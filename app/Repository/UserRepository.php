@@ -31,7 +31,7 @@ class UserRepository
         try {
             $this->connection->beginTransaction();
 
-            $query = "INSERT INTO usuario (nome, data_nascimento, cpf, rg) VALUES (?,?,?,?)";
+            $query = "INSERT INTO usuario (nome, data_nascimento, cpf, rg, password) VALUES (?,?,?,?,?)";
 
             $stmt = $this->connection->prepare($query);
 
@@ -39,7 +39,8 @@ class UserRepository
                 $user->getNome(),
                 $user->getDataNascimento()->format(Constants::DATA_FORMAT),
                 $user->getCpf(),
-                $user->getRg()
+                $user->getRg(),
+                password_hash($user->getPassword(), PASSWORD_DEFAULT),
             ]);
 
             $user->setId($this->connection->lastInsertId());
@@ -67,7 +68,7 @@ class UserRepository
     {
         try {
             $this->connection->beginTransaction();
-            $query = "UPDATE usuario SET nome = :nome, data_nascimento = :data_nascimento, cpf = :cpf, rg = :rg, data_alteracao = :data_alteracao WHERE id = :id";
+            $query = "UPDATE usuario SET nome = :nome, data_nascimento = :data_nascimento, cpf = :cpf, rg = :rg, data_alteracao = :data_alteracao, password = :password WHERE id = :id";
 
             $stmt = $this->connection->prepare($query);
 
@@ -75,6 +76,7 @@ class UserRepository
                 'nome' => $user->getNome(),
                 'data_nascimento' => $user->getDataNascimento()->format(Constants::DATA_FORMAT),
                 'cpf' => $user->getCpf(),
+                'password' => password_hash($user->getPassword(), PASSWORD_DEFAULT),
                 'rg' => $user->getRg(),
                 'id' => $user->getId(),
                 'data_alteracao' => date(Constants::DATA_FORMAT),
@@ -157,7 +159,7 @@ class UserRepository
                 return $this->returnUser($user);
             }
 
-            throw new CustomException(Constants::MSG_REGISTRO_NAO_ENCONTRADO, Constants::HTTP_NOT_FOUND);
+            throw new CustomException(Constants::MSG_DATA_NOT_FOUND, Constants::HTTP_NOT_FOUND);
         } catch (Exception $e) {
             throw $e;
         }
@@ -185,7 +187,7 @@ class UserRepository
                 return $this->returnUser($user);
             }
 
-            throw new CustomException(Constants::MSG_REGISTRO_NAO_ENCONTRADO, Constants::HTTP_NOT_FOUND);
+            throw new CustomException(Constants::MSG_DATA_NOT_FOUND, Constants::HTTP_NOT_FOUND);
         } catch (Exception $e) {
             throw $e;
         }

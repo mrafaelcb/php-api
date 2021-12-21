@@ -13,6 +13,7 @@ class User extends AbstractModel
     private ?DateTime $dataNascimento;
     private string $cpf;
     private string $rg;
+    private ?string $password;
     private ?DateTime $dataCriacao;
     private ?DateTime $dataAlteracao;
     private ?array $telefones = [];
@@ -31,6 +32,7 @@ class User extends AbstractModel
             $this->dataNascimento = Utils::getValueDate('data_nascimento', $data);
             $this->cpf = Utils::getValue('cpf', $data);
             $this->rg = Utils::getValue('rg', $data);
+            $this->password = Utils::getValue('password', $data);
             $this->dataCriacao = Utils::getValueDate('data_criacao', $data);
             $this->dataAlteracao = Utils::getValueDate('data_alteracao', $data);
             $this->telefones = Utils::getValue('telefones', $data);
@@ -180,5 +182,21 @@ class User extends AbstractModel
     public function setEnderecos(mixed $enderecos): void
     {
         $this->enderecos = $enderecos;
+    }
+
+    /**
+     * @return string
+     */
+    public function getPassword(): string
+    {
+        return $this->password;
+    }
+
+    /**
+     * @param string $password
+     */
+    public function setPassword(string $password): void
+    {
+        $this->password = $password;
     }
 }
