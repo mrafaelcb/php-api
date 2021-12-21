@@ -16,7 +16,7 @@ class Constants
     const HTTP_CREATED = 201;
     const HTTP_BAD_REQUEST = 400;
     const HTTP_NOT_FOUND = 404;
-    const HTTP_UNAUTHORIZED = 404;
+    const HTTP_UNAUTHORIZED = 401;
     const HTTP_INTERNAL_ERROR = 500;
 
     /**
@@ -33,6 +33,7 @@ class Constants
     const MSG_ERROR_REQUEST = 'Operação não concluida.';
     const MSG_DATA_NOT_FOUND = 'Registro não encontrado.';
     const MSG_PASSWORD_INVALID = 'Senha inválida.';
+    const MSG_TOKEN_INVALID = 'Token inválido.';
 
 
     /**

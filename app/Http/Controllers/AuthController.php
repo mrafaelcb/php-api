@@ -29,13 +29,13 @@ class AuthController extends Controller
     }
 
     /**
+     * Responsável por realizar login
+     *
+     * @param $request
      * @return bool|string
-     * @throws Exception
      */
-    public function login()
+    public function login($request)
     {
-        $request = $this->request->getBody();
-
         try {
             $rules = [
                 'cpf' => 'required|length:11',

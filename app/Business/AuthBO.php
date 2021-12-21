@@ -7,6 +7,7 @@ use App\Config\Constants;
 use App\Exceptions\CustomException;
 use App\Models\User;
 use App\Repository\UserRepository;
+use App\Util\Utils;
 use Exception;
 use Firebase\JWT\JWT;
 
@@ -43,12 +44,11 @@ class AuthBO extends AbstractBO
             $time = time();
 
             $payload = array(
-                "iss" => $user->getNome(),
-                "sub" => $user->getCpf(),
+                "cpf" => $user->getCpf(),
                 "iat" => $time,
             );
 
-            return ["token" => JWT::encode($payload, $_ENV['JWT_SECURITY_KEY'], Constants::JWT_TYPE)];
+            return ["token" => Utils::encodeJwt($payload)];
         } catch (Exception $e) {
             throw $e;
         }

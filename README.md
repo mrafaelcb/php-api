@@ -90,7 +90,7 @@
 }
 ```
 
-## Retornar usuário por id
+## Retornar usuário logado
 
 ### Requisição
 

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Business\UserBO;
 use App\Config\Constants;
+use App\Exceptions\CustomException;
 use App\Http\Controllers\Interfaces\ICrud;
 use App\Models\User;
 use App\Util\Request;
@@ -16,11 +17,9 @@ use Exception;
  *
  * @package App\Http\Controllers
  */
-class UserController extends Controller implements ICrud
+class UserController extends Controller
 {
-
     private UserBO $userBO;
-    private Request $request;
 
     /**
      * UserController constructor.
@@ -28,28 +27,18 @@ class UserController extends Controller implements ICrud
     public function __construct()
     {
         $this->userBO = UserBO::getInstance();
-        $this->request = new Request();
     }
 
     /**
-     * Responsável por retornar usuário por id
+     * Responsável por retornar usuário logado
      *
+     * @param User $user
      * @return User|string
      */
-    public function get(): User|string
+    public function get(User $user): User|string
     {
-        $request = $this->request->getBody();
-
         try {
-            $rules = [
-                'id' => 'required',
-            ];
-
-            $request = Utils::getValuesNotNull($request, array_keys($rules), []);
-
-            Utils::validatorRules($request, $rules);
-
-            return Response::success($this->userBO->getById(Utils::getValue('id', $request))->toJson());
+            return Response::success($this->userBO->getById($user->getId())->toJson());
         } catch (Exception $e) {
             return Response::error($e);
         }
@@ -58,12 +47,11 @@ class UserController extends Controller implements ICrud
     /**
      * Responsável por deletar usuário
      *
+     * @param $request
      * @return User|string
      */
-    public function delete(): User|string
+    public function delete($request): User|string
     {
-        $request = $this->request->getBody();
-
         try {
             $rules = [
                 'id' => 'required',
@@ -82,12 +70,11 @@ class UserController extends Controller implements ICrud
     /**
      * Responsável por editar usuário
      *
+     * @param $request
      * @return User|string
      */
-    public function edit(): User|string
+    public function edit($request): User|string
     {
-        $request = $this->request->getBody();
-
         try {
             $rules = [
                 'id' => 'required',
@@ -118,12 +105,11 @@ class UserController extends Controller implements ICrud
     /**
      * Responsável por salvar usuário
      *
+     * @param $request
      * @return bool|string
      */
-    public function save(): bool|string
+    public function save($request): bool|string
     {
-        $request = $this->request->getBody();
-
         try {
             $rules = [
                 'nome' => 'required|max:60|min:10',
@@ -151,15 +137,13 @@ class UserController extends Controller implements ICrud
     }
 
     /**
-     * Responsável por salvar usuário
+     * Responsável por retornar todos os usuários
      *
+     * @param $request
      * @return bool|string
-     * @throws Exception
      */
-    public function all(): bool|string
+    public function all($request): bool|string
     {
-        $request = $this->request->getBody();
-
         try {
             $rules = [
                 'page' => 'required',
@@ -171,7 +155,7 @@ class UserController extends Controller implements ICrud
             Utils::validatorRules($request, $rules);
 
 
-            return Response::success($this->userBO->all(intval(Utils::getValue('page', $request)),intval(Utils::getValue('per_page', $request))));
+            return Response::success($this->userBO->all(intval(Utils::getValue('page', $request)), intval(Utils::getValue('per_page', $request))));
         } catch (Exception $e) {
             return Response::error($e);
         }

@@ -5,8 +5,12 @@ namespace App\Util;
 use App\Config\Constants;
 use App\Exceptions\CustomException;
 use App\Exceptions\Validator;
+use App\Models\User;
+use App\Repository\UserRepository;
 use DateTime;
 use Exception;
+use Firebase\JWT\JWT;
+use Firebase\JWT\Key;
 use stdClass;
 
 /**
@@ -159,5 +163,49 @@ class Utils
     public static function camelCaseToSnackCase($data)
     {
         return ltrim(strtolower(preg_replace('/[A-Z]/', '_$0', $data)), '_');
+    }
+
+    /**
+     * Responsável por retornar token
+     *
+     * @param $payload
+     * @return string
+     */
+    public static function encodeJwt($payload): string
+    {
+        return JWT::encode($payload, $_ENV['JWT_SECURITY_KEY'], Constants::JWT_TYPE);
+    }
+
+    /**
+     * Responsável por retornar token decodificado
+     *
+     * @param $jwt
+     * @return mixed
+     */
+    public static function decodeJwt($jwt): mixed
+    {
+        return JWT::decode($jwt, new Key($_ENV['JWT_SECURITY_KEY'], Constants::JWT_TYPE));
+    }
+
+    /**
+     * Responsável por retornar usuário do token
+     *
+     * @param string $token
+     * @return User
+     * @throws CustomException
+     */
+    public static function validToken(string $token): User
+    {
+        if (is_null($token)) {
+            throw new CustomException(Constants::MSG_TOKEN_INVALID, Constants::HTTP_UNAUTHORIZED);
+        }
+
+        $data = Utils::decodeJwt($token);
+
+        if (is_null($data) || !isset($data->cpf)) {
+            throw new CustomException(Constants::MSG_TOKEN_INVALID, Constants::HTTP_UNAUTHORIZED);
+        }
+
+        return UserRepository::getInstance()->getByCpf($data->cpf);
     }
 }

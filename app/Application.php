@@ -5,6 +5,10 @@ namespace App;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\UserController;
 use App\Routes\Routes;
+use App\Util\Request;
+use App\Util\Response;
+use App\Util\Utils;
+use Exception;
 
 /**
  * Class Application
@@ -14,6 +18,7 @@ class Application
 {
     private UserController $userController;
     private AuthController $authController;
+    private Request $request;
 
     /**
      * Application constructor.
@@ -22,6 +27,7 @@ class Application
     {
         $this->userController = new UserController();
         $this->authController = new AuthController();
+        $this->request = new Request();
     }
 
 
@@ -56,37 +62,61 @@ class Application
     public function user()
     {
         $userController = $this->userController;
+        $request = $this->request;
 
-        Routes::get('/user', function () use ($userController) {
-            return $userController->get();
+        Routes::get('/user', function () use ($userController, $request) {
+            try {
+                return $userController->get(Utils::validToken($request->getToken()));
+            } catch (Exception $e) {
+                return Response::error($e);
+            }
         });
 
-        Routes::delete('/user', function () use ($userController) {
-            return $userController->delete();
+        Routes::delete('/user', function () use ($userController, $request) {
+            try {
+                Utils::validToken($request->getToken());
+
+                return $userController->delete($request->getBody());
+            } catch (Exception $e) {
+                return Response::error($e);
+            }
         });
 
-        Routes::put('/user', function () use ($userController) {
-            return $userController->edit();
+        Routes::put('/user', function () use ($userController, $request) {
+            try {
+                Utils::validToken($request->getToken());
+
+                return $userController->edit($request->getBody());
+            } catch (Exception $e) {
+                return Response::error($e);
+            }
         });
 
-        Routes::post('/user', function () use ($userController) {
-            return $userController->save();
+        Routes::post('/user', function () use ($userController, $request) {
+            return $userController->save($request->getBody());
         });
 
-        Routes::get('/users', function () use ($userController) {
-            return $userController->all();
+        Routes::get('/users', function () use ($userController, $request) {
+            try {
+                Utils::validToken($request->getToken());
+
+                return $userController->all($request->getBody());
+            } catch (Exception $e) {
+                return Response::error($e);
+            }
         });
     }
 
     /**
      * Responsável por listar rotas de autenticação
      */
-    public function auth(){
-
+    public function auth()
+    {
+        $request = $this->request;
         $authController = $this->authController;
 
-        Routes::post('/login', function () use ($authController) {
-            return $authController->login();
+        Routes::post('/login', function () use ($authController, $request) {
+            return $authController->login($request);
         });
     }
 }
