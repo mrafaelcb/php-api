@@ -9,10 +9,9 @@ use App\Models\User;
 use App\Repository\UserRepository;
 use App\Util\Utils;
 use Exception;
-use Firebase\JWT\JWT;
 
 /**
- * Class UserBO
+ * Class AuthBO
  * @package App\Business
  */
 class AuthBO extends AbstractBO
@@ -21,7 +20,7 @@ class AuthBO extends AbstractBO
     private UserRepository $userRepository;
 
     /**
-     * UserBO constructor.
+     * AuthBO constructor.
      */
     public function __construct()
     {

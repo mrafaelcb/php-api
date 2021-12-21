@@ -12,6 +12,10 @@ use App\Models\User;
 use Exception;
 use PDO;
 
+/**
+ * Class UserRepository
+ * @package App\Repository
+ */
 class UserRepository
 {
     private Connection $connection;

@@ -267,7 +267,7 @@
 
 ### Requisição
 
-`PUT /users`
+`GET /users`
 
 #### Json
 
@@ -328,7 +328,7 @@
 
 ### Requisição
 
-`PUT /login`
+`POST /login`
 
 #### Json
 
@@ -350,5 +350,107 @@
   "data": {
     "token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJOb3ZvIE5vbWUgVXN1XHUwMGUxcmlvIiwic3ViIjoiMDAwMDAwMDAwMDAiLCJpYXQiOjE2NDAwNDgzMjd9.GLxz78emM45h2IEUYoyItV4siyOLJZKCettLm3Xf78c"
   }
+}
+```
+
+## Listar Países
+
+### Requisição
+
+`GET /nations`
+
+### Resposta
+
+#### Json
+
+```json
+{
+  "result": true,
+  "message": "Sucesso.",
+  "data": [
+    {
+      "id": "1",
+      "nome": "Brasil",
+      "sigla": "BR"
+    }
+  ]
+}
+```
+
+## Listar Estados por País
+
+### Requisição
+
+`GET /states`
+
+#### Json
+
+```json
+{
+  "id": 1
+}
+```
+
+### Resposta
+
+#### Json
+
+```json
+{
+  "result": true,
+  "message": "Sucesso.",
+  "data": [
+    {
+      "id": "1",
+      "nome": "Acre",
+      "sigla": "AC",
+      "fk_pais": "1"
+    },
+    "...",
+    {
+      "id": "27",
+      "nome": "Tocantins",
+      "sigla": "TO",
+      "fk_pais": "1"
+    }
+  ]
+}
+```
+
+## Listar Cidades por Estados
+
+### Requisição
+
+`GET /cities`
+
+#### Json
+
+```json
+{
+  "id": 1
+}
+```
+
+### Resposta
+
+#### Json
+
+```json
+{
+  "result": true,
+  "message": "Sucesso.",
+  "data": [
+    {
+      "id": "79",
+      "nome": "Acrelândia",
+      "fk_estado": "1"
+    },
+    "...",
+    {
+      "id": "100",
+      "nome": "Xapuri",
+      "fk_estado": "1"
+    }
+  ]
 }
 ```

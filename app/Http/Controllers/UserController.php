@@ -4,10 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Business\UserBO;
 use App\Config\Constants;
-use App\Exceptions\CustomException;
-use App\Http\Controllers\Interfaces\ICrud;
 use App\Models\User;
-use App\Util\Request;
 use App\Util\Response;
 use App\Util\Utils;
 use Exception;

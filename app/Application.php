@@ -3,6 +3,7 @@
 namespace App;
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\DomainController;
 use App\Http\Controllers\UserController;
 use App\Routes\Routes;
 use App\Util\Request;
@@ -18,6 +19,7 @@ class Application
 {
     private UserController $userController;
     private AuthController $authController;
+    private DomainController $domainController;
     private Request $request;
 
     /**
@@ -27,6 +29,7 @@ class Application
     {
         $this->userController = new UserController();
         $this->authController = new AuthController();
+        $this->domainController = new DomainController();
         $this->request = new Request();
     }
 
@@ -52,6 +55,8 @@ class Application
         $this->auth();
 
         $this->user();
+
+        $this->domain();
 
         return Routes::run();
     }
@@ -117,6 +122,45 @@ class Application
 
         Routes::post('/login', function () use ($authController, $request) {
             return $authController->login($request);
+        });
+    }
+
+    /**
+     * Responsável por listar rotas de dominio
+     */
+    public function domain()
+    {
+        $domainController = $this->domainController;
+        $request = $this->request;
+
+        Routes::get('/nations', function () use ($domainController, $request) {
+            try {
+                Utils::validToken($request->getToken());
+
+                return $domainController->nations();
+            } catch (Exception $e) {
+                return Response::error($e);
+            }
+        });
+
+        Routes::get('/states', function () use ($domainController, $request) {
+            try {
+                Utils::validToken($request->getToken());
+
+                return $domainController->states($request->getBody());
+            } catch (Exception $e) {
+                return Response::error($e);
+            }
+        });
+
+        Routes::get('/cities', function () use ($domainController, $request) {
+            try {
+                Utils::validToken($request->getToken());
+
+                return $domainController->cities($request->getBody());
+            } catch (Exception $e) {
+                return Response::error($e);
+            }
         });
     }
 }
