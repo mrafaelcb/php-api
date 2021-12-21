@@ -11,7 +11,7 @@ class User extends AbstractModel
     private ?int $id;
     private string $nome;
     private ?DateTime $dataNascimento;
-    private string $cpf;
+    private ?string $cpf;
     private string $rg;
     private ?string $password;
     private ?DateTime $dataCriacao;

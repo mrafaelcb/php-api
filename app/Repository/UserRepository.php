@@ -72,14 +72,13 @@ class UserRepository
     {
         try {
             $this->connection->beginTransaction();
-            $query = "UPDATE usuario SET nome = :nome, data_nascimento = :data_nascimento, cpf = :cpf, rg = :rg, data_alteracao = :data_alteracao, password = :password WHERE id = :id";
+            $query = "UPDATE usuario SET nome = :nome, data_nascimento = :data_nascimento, rg = :rg, data_alteracao = :data_alteracao, password = :password WHERE id = :id";
 
             $stmt = $this->connection->prepare($query);
 
             $stmt->execute([
                 'nome' => $user->getNome(),
                 'data_nascimento' => $user->getDataNascimento()->format(Constants::DATA_FORMAT),
-                'cpf' => $user->getCpf(),
                 'password' => password_hash($user->getPassword(), PASSWORD_DEFAULT),
                 'rg' => $user->getRg(),
                 'id' => $user->getId(),

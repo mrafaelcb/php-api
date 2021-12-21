@@ -47,6 +47,7 @@ class Constants
     const PHONE = 'phone';
     const ADDRESS = 'address';
     const UNIQUE_CPF = 'uniqueCpf';
+    const REGEX = 'regex';
 
     /**
      * MÉTODOS HTTP

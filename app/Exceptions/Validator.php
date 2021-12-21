@@ -70,6 +70,7 @@ class Validator
             self::phone(),
             self::address(),
             self::uniqueCpf(),
+            self::regex(),
         );
 
         $match = explode(':', $match);
@@ -226,6 +227,21 @@ class Validator
             } else {
                 throw new CustomException(Constants::MSG_ERROR_REQUEST, Constants::HTTP_BAD_REQUEST, ["requiredOne" => true]);
             }
+        }];
+    }
+
+    /**
+     * Responsável por validar regex da string
+     *
+     * @return Closure[]
+     */
+    public static function regex()
+    {
+        return [Constants::REGEX => function ($value, $match = null) {
+            if (preg_match($match, $value)) {
+                return true;
+            }
+            return false;
         }];
     }
 }

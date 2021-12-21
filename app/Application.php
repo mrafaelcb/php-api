@@ -121,7 +121,7 @@ class Application
         $authController = $this->authController;
 
         Routes::post('/login', function () use ($authController, $request) {
-            return $authController->login($request);
+            return $authController->login($request->getBody());
         });
     }
 
