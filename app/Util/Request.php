@@ -10,7 +10,7 @@ namespace App\Util;
 class Request
 {
     private string|false $body;
-    private mixed $token;
+    private $token;
 
     /**
      * Request constructor.
@@ -75,7 +75,7 @@ class Request
     /**
      * @return mixed
      */
-    public function getToken(): mixed
+    public function getToken()
     {
         return $this->token;
     }

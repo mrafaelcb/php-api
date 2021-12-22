@@ -194,7 +194,7 @@ class Utils
      * @return User
      * @throws CustomException
      */
-    public static function validToken(string $token): User
+    public static function validToken(mixed $token): User
     {
         if (is_null($token)) {
             throw new CustomException(Constants::MSG_TOKEN_INVALID, Constants::HTTP_UNAUTHORIZED);
