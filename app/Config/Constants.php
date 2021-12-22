@@ -60,7 +60,7 @@ class Constants
     /**
      *  UTILS
      */
-    const DATA_FORMAT = 'Y-m-d H:i:s';
+    const DATA_FORMAT = 'Y-m-d';
     const JWT_TYPE = 'HS256';
     const API = "/api";
 }

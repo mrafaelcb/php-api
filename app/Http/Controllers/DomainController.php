@@ -40,6 +40,10 @@ class DomainController extends Controller
     public function cities($request): User|string
     {
         try {
+            if (is_null($request)) {
+                $request = $_REQUEST;
+            }
+
             $rules = [
                 'id' => 'required',
             ];
@@ -77,6 +81,10 @@ class DomainController extends Controller
     public function states($request): User|string
     {
         try {
+            if (is_null($request)) {
+                $request = $_REQUEST;
+            }
+
             $rules = [
                 'id' => 'required',
             ];
