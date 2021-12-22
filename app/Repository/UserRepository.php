@@ -286,7 +286,26 @@ class UserRepository
                 array_push($list, $this->returnUser($user)->toJson());
             }
 
-            return $list;
+            return [$list,$this->countAllUser()];
+        } catch (Exception $e) {
+            throw $e;
+        }
+    }
+
+    /**
+     * @return mixed
+     * @throws Exception
+     */
+    public function countAllUser()
+    {
+        try {
+            $query = "SELECT COUNT(*) FROM usuario";
+
+            $stmt = Connection::getInstance()->prepare($query);
+
+            $stmt->execute();
+
+            return $stmt->fetchColumn();
         } catch (Exception $e) {
             throw $e;
         }

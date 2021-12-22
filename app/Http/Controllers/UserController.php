@@ -50,6 +50,10 @@ class UserController extends Controller
     public function delete($request): User|string
     {
         try {
+            if (is_null($request)){
+                $request = $_REQUEST;
+            }
+
             $rules = [
                 'id' => 'required',
             ];
