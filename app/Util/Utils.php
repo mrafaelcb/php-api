@@ -70,13 +70,16 @@ class Utils
      */
     public static function getValue($index, $array): mixed
     {
-        if ($array instanceof Stdclass) {
-            return property_exists($array, $index) && isset($array->$index) ? $array->$index : null;
+        if (!is_null($array)) {
+            if ($array instanceof Stdclass) {
+                return property_exists($array, $index) && isset($array->$index) ? $array->$index : null;
+            }
+
+            if (array_key_exists($index, $array)) {
+                return $array[$index];
+            }
         }
 
-        if (array_key_exists($index, $array)) {
-            return $array[$index];
-        }
         return null;
     }
 

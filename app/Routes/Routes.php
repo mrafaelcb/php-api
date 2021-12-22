@@ -73,6 +73,9 @@ class Routes
         $requestUri = $_SERVER['REQUEST_URI'];
         $requestMethod = $_SERVER['REQUEST_METHOD'];
 
+        $requestUri = explode('?',$requestUri);
+        $requestUri = current($requestUri);
+
         $currentRoute = null;
         foreach (self::$routes as $route) {
             $routeString = $route->getRoute();

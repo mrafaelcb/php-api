@@ -141,6 +141,10 @@ class UserController extends Controller
     public function all($request): bool|string
     {
         try {
+            if (is_null($request)){
+                $request = $_REQUEST;
+            }
+
             $rules = [
                 'page' => 'required',
                 'per_page' => 'required',
