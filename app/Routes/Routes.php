@@ -12,6 +12,7 @@ use App\Util\Response;
  */
 class Routes
 {
+
     private static array $routes = array();
 
     /**
@@ -22,7 +23,7 @@ class Routes
      */
     public static function get($route, $function)
     {
-        $route = new Route($route, $function, Constants::GET);
+        $route = new Route(Constants::API . $route, $function, Constants::GET);
         self::$routes[] = $route;
     }
 
@@ -34,7 +35,7 @@ class Routes
      */
     public static function post($route, $function)
     {
-        $route = new Route($route, $function, Constants::POST);
+        $route = new Route(Constants::API . $route, $function, Constants::POST);
         self::$routes[] = $route;
     }
 
@@ -46,7 +47,7 @@ class Routes
      */
     public static function put($route, $function)
     {
-        $route = new Route($route, $function, Constants::PUT);
+        $route = new Route(Constants::API . $route, $function, Constants::PUT);
         self::$routes[] = $route;
     }
 
@@ -58,7 +59,7 @@ class Routes
      */
     public static function delete($route, $function)
     {
-        $route = new Route($route, $function, Constants::DELETE);
+        $route = new Route(Constants::API . $route, $function, Constants::DELETE);
         self::$routes[] = $route;
     }
 

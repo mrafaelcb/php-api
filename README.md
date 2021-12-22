@@ -14,6 +14,9 @@
 
 # REST API
 
+##### Url
+    http://localhost:80/api
+
 ## Cadastro de usuário
 
 ### Requisição

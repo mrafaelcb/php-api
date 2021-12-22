@@ -62,4 +62,5 @@ class Constants
      */
     const DATA_FORMAT = 'Y-m-d H:i:s';
     const JWT_TYPE = 'HS256';
+    const API = "/api";
 }
